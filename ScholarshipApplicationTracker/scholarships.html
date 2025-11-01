@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarships</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      background: #f4f4f4;
+    }
+
+    .sidebar {
+      width: 200px;
+      background: white;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 15px 0;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .sidebar a.active {
+      font-weight: bold;
+      color: #4f46e5;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      margin: 5px;
+      padding: 6px;
+    }
+
+    button {
+      padding: 6px 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>ScholarHub</h2>
+    <a href="dashboard.html">🏠 Dashboard</a>
+    <a href="scholarships.html" class="active">🎓 Scholarships</a>
+    <a href="appointments.html">📅 Appointments</a>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <h1>Scholarships</h1>
+
+    <!-- Form -->
+    <form id="scholarForm">
+      <input id="name" placeholder="Name" required>
+      <input id="gpa" placeholder="GPA" required>
+      <input id="major" placeholder="Major" required>
+      <input id="school" placeholder="School" required><br>
+
+      <input id="scholarshipName" placeholder="Scholarship Name" required>
+      <input id="type" placeholder="Type" required>
+      <input id="deadline" type="date" required>
+
+      <select id="status">
+        <option>In Progress</option>
+        <option>Submitted</option>
+        <option>Accepted</option>
+        <option>Rejected</option>
+      </select>
+
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Scholarship</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadScholarships() {
+      const data = JSON.parse(localStorage.getItem("scholarData") || "[]");
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      data.forEach(s => {
+        const row = `
+          <tr>
+            <td>${s.name}</td>
+            <td>${s.scholarshipName}</td>
+            <td>${s.status}</td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    document.getElementById("scholarForm").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const data = JSON.parse(localStorage.getItem("scholarData") || "[]");
+      data.push({
+        name: name.value,
+        gpa: gpa.value,
+        major: major.value,
+        school: school.value,
+        scholarshipName: scholarshipName.value,
+        type: type.value,
+        deadline: deadline.value,
+        status: status.value
+      });
+
+      localStorage.setItem("scholarData", JSON.stringify(data));
+      e.target.reset();
+      loadScholarships();
+    });
+
+    loadScholarships();
+  </script>
+</body>
+</html>
