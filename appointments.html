@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      background: #f4f4f4;
+    }
+
+    .sidebar {
+      width: 200px;
+      background: white;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 15px 0;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .sidebar a.active {
+      font-weight: bold;
+      color: #4f46e5;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      margin: 5px;
+      padding: 6px;
+    }
+
+    button {
+      padding: 6px 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>ScholarHub</h2>
+    <a href="index.html">🏠 Dashboard</a>
+    <a href="scholarships.html">🎓 Scholarships</a>
+    <a href="appointments.html" class="active">📅 Appointments</a>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <h1>Appointments</h1>
+
+    <!-- Form -->
+    <form id="appointmentForm">
+      <input id="student" placeholder="Student Name" required>
+      <input id="date" type="date" required>
+      <input id="purpose" placeholder="Purpose" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Table -->
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Date</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody id="appTable"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function loadAppointments() {
+      const data = JSON.parse(localStorage.getItem("appointmentData") || "[]");
+      const tbody = document.getElementById("appTable");
+      tbody.innerHTML = "";
+
+      data.forEach(a => {
+        const row = `
+          <tr>
+            <td>${a.student}</td>
+            <td>${a.date}</td>
+            <td>${a.purpose}</td>
+          </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    document.getElementById("appointmentForm").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const data = JSON.parse(localStorage.getItem("appointmentData") || "[]");
+      data.push({
+        student: student.value,
+        date: date.value,
+        purpose: purpose.value
+      });
+
+      localStorage.setItem("appointmentData", JSON.stringify(data));
+      e.target.reset();
+      loadAppointments();
+    });
+
+    loadAppointments();
+  </script>
+</body>
+</html>

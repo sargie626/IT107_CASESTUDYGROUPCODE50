@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScholarHub Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      background: #f4f4f4;
+    }
+
+    .sidebar {
+      width: 200px;
+      background: white;
+      height: 100vh;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar a {
+      display: block;
+      margin: 15px 0;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .sidebar a.active {
+      font-weight: bold;
+      color: #4f46e5;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>ScholarHub</h2>
+    <a href="dashboard.html" class="active">🏠 Dashboard</a>
+    <a href="scholarships.html">🎓 Scholarships</a>
+    <a href="appointments.html">📅 Appointments</a>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div class="main">
+    <h1>Dashboard</h1>
+
+    <div class="stats">
+      <div class="card">
+        <h3>Total Scholarships</h3>
+        <p id="totalScholarships">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Accepted</h3>
+        <p id="accepted">0</p>
+      </div>
+
+      <div class="card">
+        <h3>In Progress</h3>
+        <p id="inProgress">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Appointments</h3>
+        <p id="totalAppointments">0</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function loadStats() {
+      const scholarships = JSON.parse(localStorage.getItem("scholarData") || "[]");
+      const appointments = JSON.parse(localStorage.getItem("appointmentData") || "[]");
+
+      document.getElementById("totalScholarships").textContent = scholarships.length;
+      document.getElementById("accepted").textContent = scholarships.filter(s => s.status === "Accepted").length;
+      document.getElementById("inProgress").textContent = scholarships.filter(s => s.status === "In Progress").length;
+      document.getElementById("totalAppointments").textContent = appointments.length;
+    }
+
+    loadStats();
+  </script>
+</body>
+</html>
