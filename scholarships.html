@@ -1,67 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Scholarships</title>
+
   <style>
+    /* Simple readable styles (no variables) */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       display: flex;
       background: #f4f4f4;
     }
+
     .sidebar {
       width: 200px;
-      background: white;
+      background: #fff;
       height: 100vh;
       padding: 20px;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      box-shadow: 2px 0 5px rgba(0,0,0,0.08);
     }
+
     .sidebar a {
       display: block;
-      margin: 15px 0;
-      text-decoration: none;
+      padding: 8px;
       color: #333;
+      text-decoration: none;
+      margin-bottom: 6px;
     }
-    .sidebar a.active {
-      font-weight: bold;
-      color: #4f46e5;
-    }
+
+    .sidebar a.active { background: #ececec; font-weight: bold; }
+
     .main {
       flex: 1;
       padding: 20px;
     }
-    form {
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
+
+    h1 { margin-top: 0; }
+
+    form { background: #fff; padding: 12px; border-radius: 6px; margin-bottom: 12px; }
+    .row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .col { flex: 1; min-width: 0; }
+
+    label { display: block; font-size: 13px; margin-bottom: 4px; color: #333; }
+    input[type="text"], input[type="number"], input[type="date"], select {
+      width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
     }
-    input, select, button {
-      margin: 5px;
-      padding: 6px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-    }
-    th, td {
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-    button.delete {
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 5px 8px;
-      cursor: pointer;
+
+    button { padding: 8px 10px; border-radius: 4px; border: none; cursor: pointer; }
+    .btn-add { background: #2f2f90; color: #fff; }
+    .btn-cancel { background: #eee; color: #333; margin-left: 6px; }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 6px; overflow: hidden; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #eee; font-size: 14px; text-align: left; }
+    th { background: #fafafa; color: #666; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+    td.actions button { margin-right: 6px; padding: 6px 8px; }
+
+    .btn-edit { background: #f0ad4e; color: white; border: none; }
+    .btn-delete { background: #d9534f; color: white; border: none; }
+
+    @media (max-width: 800px) {
+      .row { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Sidebar -->
   <div class="sidebar">
     <h2>ScholarHub</h2>
     <a href="index.html">🏠 Dashboard</a>
@@ -69,98 +75,235 @@
     <a href="appointments.html">📅 Appointments</a>
   </div>
 
+  <!-- Main -->
   <div class="main">
     <h1>Scholarships</h1>
 
-    <form id="scholarForm">
-      <input id="name" placeholder="Name" required>
-      <input id="gpa" placeholder="GPA" required>
-      <input id="major" placeholder="Major" required>
-      <input id="school" placeholder="School" required><br>
+    <!-- Inline form -->
+    <form id="schForm">
+      <div class="row">
+        <div class="col">
+          <label for="name">Student Name</label>
+          <input id="name" type="text" required>
+        </div>
+        <div class="col">
+          <label for="gpa">GPA</label>
+          <input id="gpa" type="number" step="0.01" min="0" max="5">
+        </div>
+      </div>
 
-      <input id="scholarshipName" placeholder="Scholarship Name" required>
-      <input id="type" placeholder="Type" required>
-      <input id="deadline" type="date" required>
+      <div class="row">
+        <div class="col">
+          <label for="major">Major</label>
+          <input id="major" type="text">
+        </div>
+        <div class="col">
+          <label for="school">School / University</label>
+          <input id="school" type="text">
+        </div>
+      </div>
 
-      <select id="status">
-        <option>In Progress</option>
-        <option>Submitted</option>
-        <option>Accepted</option>
-        <option>Rejected</option>
-      </select>
+      <div class="row">
+        <div class="col">
+          <label for="scholarshipName">Scholarship Name</label>
+          <input id="scholarshipName" type="text" required>
+        </div>
+        <div class="col">
+          <label for="scholarshipType">Scholarship Type</label>
+          <input id="scholarshipType" type="text">
+        </div>
+      </div>
 
-      <button type="submit">Add</button>
+      <div class="row">
+        <div class="col">
+          <label for="deadline">Deadline</label>
+          <input id="deadline" type="date">
+        </div>
+        <div class="col">
+          <label for="status">Status</label>
+          <select id="status">
+            <option>Planning</option>
+            <option>In Progress</option>
+            <option>Submitted</option>
+            <option>Accepted</option>
+            <option>Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <label for="requirements">Requirements (comma separated)</label>
+          <input id="requirements" type="text">
+        </div>
+      </div>
+
+      <div style="margin-top:8px;">
+        <button type="submit" id="btnSave" class="btn-add">Add Scholarship</button>
+        <button type="button" id="btnCancel" class="btn-cancel">Cancel</button>
+      </div>
     </form>
 
+    <!-- Table -->
     <table>
       <thead>
         <tr>
-          <th>Name</th>
+          <th>Student</th>
+          <th>GPA</th>
+          <th>Major</th>
+          <th>School</th>
           <th>Scholarship</th>
+          <th>Type</th>
+          <th>Deadline</th>
           <th>Status</th>
-          <th>Action</th>
+          <th>Actions</th>
         </tr>
       </thead>
-      <tbody id="tableBody"></tbody>
+      <tbody id="schTableBody">
+        <!-- rows injected by JS -->
+      </tbody>
     </table>
   </div>
 
   <script>
-    function loadScholarships() {
-      const data = JSON.parse(localStorage.getItem("scholarData") || "[]");
-      const tbody = document.getElementById("tableBody");
-      tbody.innerHTML = "";
+    // Simple readable JS for add / edit / delete
+    // Data stored under "scholarships" in localStorage (shared with index.html)
 
-      data.forEach((s, index) => {
-        const row = `
-          <tr>
-            <td>${s.name}</td>
-            <td>${s.scholarshipName}</td>
-            <td>${s.status}</td>
-            <td><button class="delete" onclick="deleteScholar(${index})">Delete</button></td>
-          </tr>`;
-        tbody.innerHTML += row;
-      });
+    var scholarships = JSON.parse(localStorage.getItem('scholarships') || '[]');
+    var editIndex = -1;
+
+    // Elements
+    var form = document.getElementById('schForm');
+    var btnSave = document.getElementById('btnSave');
+    var btnCancel = document.getElementById('btnCancel');
+    var tableBody = document.getElementById('schTableBody');
+
+    function saveToStorage() {
+      localStorage.setItem('scholarships', JSON.stringify(scholarships));
     }
 
-    function deleteScholar(index) {
-      const data = JSON.parse(localStorage.getItem("scholarData") || "[]");
-      data.splice(index, 1);
-      localStorage.setItem("scholarData", JSON.stringify(data));
-      loadScholarships();
+    function renderTable() {
+      if (!scholarships || scholarships.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="9" style="text-align:center; color:#777;">No scholarships yet</td></tr>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < scholarships.length; i++) {
+        var s = scholarships[i];
+        html += '<tr>';
+        html += '<td>' + escapeHtml(s.student) + '</td>';
+        html += '<td>' + escapeHtml(s.gpa || '') + '</td>';
+        html += '<td>' + escapeHtml(s.major || '') + '</td>';
+        html += '<td>' + escapeHtml(s.school || '') + '</td>';
+        html += '<td>' + escapeHtml(s.scholarshipName || '') + '</td>';
+        html += '<td>' + escapeHtml(s.type || '') + '</td>';
+        html += '<td>' + (s.deadline ? escapeHtml(s.deadline) : '') + '</td>';
+        html += '<td>' + escapeHtml(s.status || '') + '</td>';
+        html += '<td class="actions">';
+        html += '<button class="btn-edit" onclick="startEdit(' + i + ')">Edit</button> ';
+        html += '<button class="btn-delete" onclick="deleteScholar(' + i + ')">Delete</button>';
+        html += '</td>';
+        html += '</tr>';
+      }
+      tableBody.innerHTML = html;
     }
 
-    document.getElementById("scholarForm").addEventListener("submit", function(e) {
+    // Add or update on submit
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const name = document.getElementById("name").value;
-      const gpa = document.getElementById("gpa").value;
-      const major = document.getElementById("major").value;
-      const school = document.getElementById("school").value;
-      const scholarshipName = document.getElementById("scholarshipName").value;
-      const type = document.getElementById("type").value;
-      const deadline = document.getElementById("deadline").value;
-      const status = document.getElementById("status").value;
+      var student = document.getElementById('name').value.trim();
+      var gpa = document.getElementById('gpa').value.trim();
+      var major = document.getElementById('major').value.trim();
+      var school = document.getElementById('school').value.trim();
+      var scholarshipName = document.getElementById('scholarshipName').value.trim();
+      var type = document.getElementById('scholarshipType').value.trim();
+      var deadline = document.getElementById('deadline').value;
+      var status = document.getElementById('status').value;
+      var requirements = document.getElementById('requirements').value.trim();
 
-      const data = JSON.parse(localStorage.getItem("scholarData") || "[]");
+      if (!student || !scholarshipName || !school) {
+        alert('Please provide Student name, Scholarship name, and School at minimum.');
+        return;
+      }
 
-      data.push({
-        name,
-        gpa,
-        major,
-        school,
-        scholarshipName,
-        type,
-        deadline,
-        status
-      });
+      var entry = {
+        student: student,
+        gpa: gpa,
+        major: major,
+        school: school,
+        scholarshipName: scholarshipName,
+        type: type,
+        deadline: deadline,
+        status: status,
+        requirements: requirements,
+        updatedAt: new Date().toISOString()
+      };
 
-      localStorage.setItem("scholarData", JSON.stringify(data));
-      e.target.reset();
-      loadScholarships();
+      if (editIndex === -1) {
+        // Add new (push to beginning so newest is on top)
+        scholarships.unshift(entry);
+      } else {
+        // Update existing
+        scholarships[editIndex] = entry;
+        editIndex = -1;
+        btnSave.textContent = 'Add Scholarship';
+      }
+
+      saveToStorage();
+      renderTable();
+      form.reset();
+      // update dashboard counts on index.html when user goes back (shared storage)
     });
 
-    loadScholarships();
+    // Start editing an entry
+    function startEdit(index) {
+      var s = scholarships[index];
+      document.getElementById('name').value = s.student || '';
+      document.getElementById('gpa').value = s.gpa || '';
+      document.getElementById('major').value = s.major || '';
+      document.getElementById('school').value = s.school || '';
+      document.getElementById('scholarshipName').value = s.scholarshipName || '';
+      document.getElementById('scholarshipType').value = s.type || '';
+      document.getElementById('deadline').value = s.deadline || '';
+      document.getElementById('status').value = s.status || 'Planning';
+      document.getElementById('requirements').value = s.requirements || '';
+
+      editIndex = index;
+      btnSave.textContent = 'Update Scholarship';
+      // scroll to form (helpful on small screens)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Delete entry
+    function deleteScholar(index) {
+      if (!confirm('Delete this scholarship?')) return;
+      scholarships.splice(index, 1);
+      saveToStorage();
+      renderTable();
+    }
+
+    // Cancel button resets form and edit state
+    btnCancel.addEventListener('click', function() {
+      form.reset();
+      editIndex = -1;
+      btnSave.textContent = 'Add Scholarship';
+    });
+
+    // Escape HTML helper
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Initial render
+    renderTable();
   </script>
 </body>
 </html>
